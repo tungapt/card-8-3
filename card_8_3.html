@@ -7,18 +7,25 @@
         <title>Document</title>
     </head>
     <style>
+        @font-face {
+            font-family: fuga;
+            src: url(./FugazOne-Regular.ttf);
+        }
         .book {
             transition: opacity 0.4s 0.2s;
         }
         p {
             margin-top: 8vw;
             text-align: center;
-            font-size: 5vw;
+            font-size: 18px;
             color: #000000;
         }
+        .biaSach{
+            background:no-repeat 100%/contain url(./imgs/bia.png) !important;
+        }
         .page {
-            width: 30vw;
-            height: 44vw;
+            width: 424px;
+            height: 600px;
             background-color: #111111;
             float: left;
             margin-bottom: 0.5em;
@@ -32,8 +39,8 @@
             perspective: 250vw;
         }
         .book .pages {
-            width: 60vw;
-            height: 44vw;
+            width: 848px;
+            height: 600px;
             position: relative;
             transform-style: preserve-3d;
             backface-visibility: hidden;
@@ -46,8 +53,8 @@
             margin: 0;
             position: absolute;
             top: 0;
-            width: 30vw;
-            height: 44vw;
+            width: 424px;
+            height: 600px;
             transform-origin: 0 0;
             transition: transform 1.4s;
             backface-visibility: hidden;
@@ -125,7 +132,7 @@
         }
         html,
         body {
-            font-family: 'Lovers Quarrel', cursive;
+            font-family: fuga;
             background: #333;
             -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         }
@@ -148,26 +155,36 @@
         <link href="https://fonts.googleapis.com/css?family=Lovers+Quarrel" rel="stylesheet">
         <div class="book">
             <div id="pages" class="pages">
-                <div class="page">
-                    <p>Open Me,
-                        <br>please!</p>
-                        <span style="font-size:40px;">Mở đi không là dỗi bây giờ đấy</span>
-                </div>
-                <div class="page"><p>aaaa</p></div>
+                <div class="page biaSach" id="handleShowText"></div>
+                <div class="page"><p id="loiChuc"></p></div>
                 <div class="page">
                     <p>Hello there!</p>
                 </div>
-                <div class="page"><img src="./imgs/cute-cat.gif" alt=""></div>
-                <div class="page">xx</div>
-                <div class="page"></div>
-                <div class="page"></div>
-                <div class="page"></div>
-                <div class="page"></div>
                 <div class="page"></div>
             </div>
         </div>
     </body>
     <script>
+        var i = 0;
+        var txt = 'Xin chúc các chị em đồng nghiệp một ngày 8/3 vui vẻ và ngập tràn hạnh phúc. Chúc chị em ngày càng xinh đẹp, may mắn và thành công trong sự nghiệp. ';
+        var speed = 50;
+
+        document.getElementById('handleShowText').addEventListener('click',function(){
+            setTimeout(() => {
+                typeWriter();
+            }, 1000);
+
+        })
+
+        function typeWriter() {
+            if (i < txt.length) {
+                document.getElementById("loiChuc").innerHTML += txt.charAt(i);
+                i++;
+                setTimeout(typeWriter, speed);
+            }
+        }
+
+
         var pages = document.getElementsByClassName('page');
         for (var i = 0; i < pages.length; i++) {
             var page = pages[i];
