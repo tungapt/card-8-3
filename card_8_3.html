@@ -7,15 +7,23 @@
         <title>Document</title>
     </head>
     <style>
+        @keyframes fadeIn {
+            0%{
+                opacity:0;
+            }
+            100%{
+                opacity:1;
+            }
+        }
         @font-face {
             font-family: DancingScript;
-            src: url(./DancingScript.ttf);
+            src: url('./DancingScript.ttf');
         }
         .book {
             transition: opacity 0.4s 0.2s;
         }
-        .biaSach{
-           background:no-repeat 100%/contain url(./imgs/bia.png) !important;
+        .biaSach {
+            background:no-repeat 100%/contain url(./imgs/bia.png) !important;
         }
         .page {
             width: 424px;
@@ -25,7 +33,7 @@
             margin-bottom: 0.5em;
             background: left top no-repeat;
             background-size: cover;
-            padding:12px;
+            padding: 12px;
             background: #000;
         }
         .page:nth-child(even) {
@@ -33,6 +41,15 @@
         }
         .book {
             perspective: 250vw;
+            transform: rotate(9deg) scale(0.8);
+            transition: all 1s;
+            filter: brightness(0.9);
+            margin-left: 300px;
+            filter: drop-shadow(-2px 6px 3px #89abb78f);
+        }
+        .book:hover {
+            transform: rotate(0) scale(1);
+            filter: brightness(1);
         }
         .book .pages {
             width: 848px;
@@ -57,7 +74,7 @@
             transform-style: preserve-3d;
             cursor: pointer;
             user-select: none;
-            background-color: #f0f0f0;
+            background-color: #eccdd3;
         }
         .book .page:before {
             content: '';
@@ -125,8 +142,8 @@
         *:before,
         *:after {
             box-sizing: border-box;
-            margin:0;
-            padding:0
+            margin: 0;
+            padding: 0
         }
         html {
             height: 100%;
@@ -139,45 +156,82 @@
             justify-content: center;
             align-items: center;
             padding: 2em 0;
-            line-height: 1.5em;
+            opacity:0;
+            animation: fadeIn 1s forwards
         }
-        #popup *{
+        #popup * {
             font-family: DancingScript;
             font-size: 22px;
         }
         .page:nth-child(odd) {
             background-position: right top;
         }
-        #loiChuc{
+        #loiChuc {
             text-align: center;
             margin-top: 185px;
+            color: #4a3a4a;
+        }
+        .lastpage {
+            background: no-repeat url('./imgs/background2.png'), #efd0d6 !important;
+            background-size: 644px !important;
+            background-position: bottom right !important;
+        }
+        .closeBtn {
+            background: #ced6d9;
+            display: block;
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 10px;
+            border-radius: 5px;
+            color: #000;
+            text-decoration: none;
+        }
+        .closeBtn:hover {
+            background: #86aaba;
         }
     </style>
     <body>
         <div id="popup">
+            <audio id="myAudio">
+                <source src="./nhacNen.mp3" type="audio/mpeg">
+            </audio>
+            <a href="javascript:void(0)" class="closeBtn" onclick="playAudio()">Close</a>
             <div class="book">
                 <div id="pages" class="pages">
                     <div class="page biaSach" id="handleShowText"></div>
-                    <div class="page"><p id="loiChuc"></p></div>
                     <div class="page">
-                        <p>Hello there!</p>
+                        <p id="loiChuc"></p>
                     </div>
+                    <div class="page lastpage"></div>
                     <div class="page"></div>
                 </div>
             </div>
         </div>
     </body>
     <script>
+        // nhac nen
+        var x = document.getElementById("myAudio");
+        // chữ chạy
+        var arr = [
+            'Chào em yêu! Nhân ngày quốc tế phụ nữ 8/3, anh chúc em yêu luôn xinh đẹp, diu dàng và thành công. Anh yêu em rất nhiều!',
+            'Chúc cho người phụ nữ đã, đang và sẽ bên cạnh anh mãi mãi, một ngày 8/3 hạnh phúc trọn vẹn. Cảm ơn em đã đồng hành cùng anh suốt khoảng thời gian qua.',
+            'Mỗi người đều có hạnh phúc của riêng mình. Đối với anh, hạnh phúc lớn nhất là có em. Anh mong rằng mỗi ngày đều có em bên cạnh, trọn kiếp này và cả kiếp sau nữa. Happy Women’s Day! Chúc em có ngày 8/3 thật hạnh phúc.',
+            'Chúc em yêu dù là ngày 8/3 hay bất cứ ngày nào khác cũng luôn thật xinh đẹp, tự tin và yêu anh nhiều hơn nữa.',
+            'Em biết không, những lúc ở bên em là những lúc anh cảm thấy ngọt ngào và hạnh phúc nhất. Cảm ơn em vì đã đến bên anh. Cảm ơn em vì đã ở cạnh anh… Hãy thật vui trong ngày hôm nay em nhé!',
+        ];
+        let number = Math.floor(Math.random() * 5);
         var i = 0;
-        var txt = 'Xin chúc các chị em đồng nghiệp một ngày 8/3 vui vẻ và ngập tràn hạnh phúc. Chúc chị em ngày càng xinh đẹp, may mắn và thành công trong sự nghiệp. ';
+        var txt = arr[number];
         var speed = 50;
 
-        document.getElementById('handleShowText').addEventListener('click',function(){
+        document.getElementById('handleShowText').addEventListener('click', function () {
             setTimeout(() => {
                 typeWriter();
+                x.play();
             }, 1000);
-
         })
+
 
         function typeWriter() {
             if (i < txt.length) {
@@ -187,7 +241,9 @@
             }
         }
 
+        // end chữ chạy
 
+        // hiệu ứng lật sách
         var pages = document.getElementsByClassName('page');
         for (var i = 0; i < pages.length; i++) {
             var page = pages[i];
@@ -210,5 +266,6 @@
                 }
             }
         })
+        // end hiệu ứng
     </script>
 </html>
