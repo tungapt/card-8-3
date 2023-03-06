@@ -8,20 +8,14 @@
     </head>
     <style>
         @font-face {
-            font-family: fuga;
-            src: url(./FugazOne-Regular.ttf);
+            font-family: DancingScript;
+            src: url(./DancingScript.ttf);
         }
         .book {
             transition: opacity 0.4s 0.2s;
         }
-        p {
-            margin-top: 8vw;
-            text-align: center;
-            font-size: 18px;
-            color: #000000;
-        }
         .biaSach{
-            background:no-repeat 100%/contain url(./imgs/bia.png) !important;
+           background:no-repeat 100%/contain url(./imgs/bia.png) !important;
         }
         .page {
             width: 424px;
@@ -31,6 +25,8 @@
             margin-bottom: 0.5em;
             background: left top no-repeat;
             background-size: cover;
+            padding:12px;
+            background: #000;
         }
         .page:nth-child(even) {
             clear: both;
@@ -129,17 +125,15 @@
         *:before,
         *:after {
             box-sizing: border-box;
-        }
-        html,
-        body {
-            font-family: fuga;
-            background: #333;
-            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            margin:0;
+            padding:0
         }
         html {
             height: 100%;
         }
-        body {
+        #popup {
+            background: no-repeat 100%/cover url(./imgs/background.jpg);
+            height: 100vh;
             min-height: 100%;
             display: flex;
             justify-content: center;
@@ -147,20 +141,29 @@
             padding: 2em 0;
             line-height: 1.5em;
         }
+        #popup *{
+            font-family: DancingScript;
+            font-size: 22px;
+        }
         .page:nth-child(odd) {
             background-position: right top;
         }
+        #loiChuc{
+            text-align: center;
+            margin-top: 185px;
+        }
     </style>
     <body>
-        <link href="https://fonts.googleapis.com/css?family=Lovers+Quarrel" rel="stylesheet">
-        <div class="book">
-            <div id="pages" class="pages">
-                <div class="page biaSach" id="handleShowText"></div>
-                <div class="page"><p id="loiChuc"></p></div>
-                <div class="page">
-                    <p>Hello there!</p>
+        <div id="popup">
+            <div class="book">
+                <div id="pages" class="pages">
+                    <div class="page biaSach" id="handleShowText"></div>
+                    <div class="page"><p id="loiChuc"></p></div>
+                    <div class="page">
+                        <p>Hello there!</p>
+                    </div>
+                    <div class="page"></div>
                 </div>
-                <div class="page"></div>
             </div>
         </div>
     </body>
