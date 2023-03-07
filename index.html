@@ -33,7 +33,7 @@
             margin-bottom: 0.5em;
             background: left top no-repeat;
             background-size: cover;
-            padding: 12px;
+            padding: 12px 40px;
             background: #000;
         }
         .page:nth-child(even) {
@@ -250,7 +250,7 @@
 
 
         function typeWriter() {
-            if (i < txt.length) {
+            if (i <= txt.length) {
                 document.getElementById("loiChuc").innerHTML += txt.charAt(i);
                 i++;
                 setTimeout(typeWriter, speed);
