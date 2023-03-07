@@ -46,6 +46,9 @@
             margin-left: 300px;
             filter: drop-shadow(-2px 6px 3px #89abb78f) brightness(0.9);
         }
+        .book.active {
+            transform: rotate(0) scale(1);
+        }
         .book:hover {
             transform: rotate(0) scale(1);
             filter: drop-shadow(-2px 6px 3px #89abb78f) brightness(1);
@@ -189,17 +192,39 @@
         .closeBtn:hover {
             background: #86aaba;
         }
+        #manChe{
+            position: absolute;
+            left:0;
+            right:0;
+            opacity:0.9;
+            background:pink;
+            width:100%;
+            height:100%;
+            display: flex;
+            justify-content: center;
+            font-size: 30px;
+            z-index:10;
+            font-weight: bold;
+            align-items: center;
+            cursor: pointer;
+            transition: all .4s;
+        }
+        #manChe:hover{
+            opacity:0.7;
+            font-size: 36px;
+        }
     </style>
     <body>
         <div id="popup">
+            <div id="manChe">Click to open</div>
             <audio id="myAudio">
-                <source src="./nhacNen2.mp3" type="audio/mpeg">
+                <source src="./nhacNen1.mp3" type="audio/mpeg">
             </audio>
             <a href="javascript:void(0)" class="closeBtn" onclick="playAudio()">Close</a>
-            <div class="book">
+            <div class="book" id="book">
                 <div id="pages" class="pages">
                     <div class="page biaSach" id="handleShowText"></div>
-                    <div class="page">
+                    <div class="page" id="matTrong1">
                         <p id="loiChuc"></p>
                     </div>
                     <div class="page lastpage"></div>
@@ -209,15 +234,19 @@
         </div>
     </body>
     <script>
-        // nhac nen
         var x = document.getElementById("myAudio");
+        document.getElementById("manChe").addEventListener('click',function(){
+            document.getElementById("manChe").style.display = "none";
+            document.getElementById('handleShowText').click();
+            x.play();
+        })
+        
         // chữ chạy
         var arr = [
             "Nhân ngày Quốc tế Phụ nữ 8/3, em xin thay mặt toàn bộ đàn ông trên thế giới trao gửi yêu thương đến chị em bằng những lời chúc tốt đẹp. Chúc chị em luôn có một cuộc sống lý tưởng và đạt được những mục tiêu đã đặt ra trong công việc",
             "William James có một câu danh ngôn rằng: “Chúng ta không cười vì chúng ta hạnh phúc – chúng ta hạnh phúc vì chúng ta cười”. Chính vì thế, Anh em chúng tôi chúc chị em luôn đón chào ngày mới bằng một nụ cười trên môi, không chỉ riêng hôm nay mà còn là 364 ngày còn lại",
             "Hôm nay là ngày Quốc tế Phụ nữ, anh em Thành phát gửi lời chúc mừng tới chị em mình vì đã gắn bó trong suốt thời gian vừa qua bởi vì chúng ta là một gia đình. Chúc chị em luôn giữ mãi ngọn lửa nhiệt huyết với công việc và cuộc sống",
             "8/3 là ngày đặc biệt dành cho bạn cũng như toàn thể phụ nữ trên thế giới, anh em chúng tôi xin chúc bạn sẽ như đóa hoa hướng dương luôn căng tràn nhựa sống và đón nhận những điều tốt đẹp của cuộc đời",
-            "Mỗi một ngày trôi qua, anh em thành phát chúng tôi lại học được ở sếp một điều mới. Nhân ngày Quốc tế Phụ nữ, xin cảm ơn chị em đã luôn xinh đẹp và tận tâm trong công việc. Chúc chị em vạn sự như ý và luôn thành công, luôn rực rỡ, toả sáng",
             "Thương gửi bạn gái xinh xắn đang đọc những dòng chữ này, nhân dịp Quốc tế Phụ nữ, xin chúc bạn một ngày 8/3 vui vẻ và hạnh phúc bên gia đình và đồng nghiệp",
             "Người ta nói rằng: “Hạnh phúc là được yêu khi trẻ, toại chí khi trung tuổi, dư sinh lực lúc về già và có tiền ở mọi lứa tuổi”. Nhân dịp 8/3, xin chúc bạn sẽ đạt được trọn vẹn những điều như thế",
             "Nhân ngày tôn vinh một nửa quan trọng của thế giới, xin chúc bạn thật hạnh phúc và mong rằng mỗi ngày trôi qua, bạn luôn được sống trong tình yêu thương không chỉ của bạn bè, người thân mà còn là các anh chị em, đồng nghiệp trong công ty mình",
@@ -242,12 +271,14 @@
         var speed = 50;
 
         document.getElementById('handleShowText').addEventListener('click', function () {
+            document.getElementById('book').classList.add("active");
             setTimeout(() => {
                 typeWriter();
-                x.play();
             }, 1000);
         })
-
+        document.getElementById('matTrong1').addEventListener('click', function () {
+            document.getElementById('book').classList.remove("active");
+        })
 
         function typeWriter() {
             if (i <= txt.length) {
@@ -268,7 +299,7 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
+        let a = document.addEventListener('DOMContentLoaded', function () {
             for (var i = 0; i < pages.length; i++) { // Or var page = pages[i];
                 pages[i].pageNum = i + 1;
                 pages[i].onclick = function () {
