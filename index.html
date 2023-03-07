@@ -4,15 +4,15 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Ngày của những bông hoa ở ngọn đồi Thành phát</title>
+        <title>Ngày của những bông hoa trên ngọn đồi Thành phát</title>
     </head>
     <style>
         @keyframes fadeIn {
-            0%{
-                opacity:0;
+            0% {
+                opacity: 0;
             }
-            100%{
-                opacity:1;
+            100% {
+                opacity: 1;
             }
         }
         @font-face {
@@ -23,7 +23,7 @@
             transition: opacity 0.4s 0.2s;
         }
         .biaSach {
-            background:no-repeat 100%/contain url(./imgs/bia.png) !important;
+            background: no-repeat 100%/contain url('./imgs/bia.png') !important;
         }
         .page {
             width: 424px;
@@ -43,7 +43,6 @@
             perspective: 250vw;
             transform: rotate(9deg) scale(0.8);
             transition: all 1s;
-            filter: ;
             margin-left: 300px;
             filter: drop-shadow(-2px 6px 3px #89abb78f) brightness(0.9);
         }
@@ -149,14 +148,14 @@
             height: 100%;
         }
         #popup {
-            background: no-repeat 100%/cover url(./imgs/background.jpg);
+            background: no-repeat 100%/cover url('./imgs/background.jpg');
             height: 100vh;
             min-height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 2em 0;
-            opacity:0;
+            opacity: 0;
             animation: fadeIn 1s forwards
         }
         #popup * {
@@ -214,13 +213,30 @@
         var x = document.getElementById("myAudio");
         // chữ chạy
         var arr = [
-            'Chào em yêu! Nhân ngày quốc tế phụ nữ 8/3, anh chúc em yêu luôn xinh đẹp, diu dàng và thành công. Anh yêu em rất nhiều!',
-            'Chúc cho người phụ nữ đã, đang và sẽ bên cạnh anh mãi mãi, một ngày 8/3 hạnh phúc trọn vẹn. Cảm ơn em đã đồng hành cùng anh suốt khoảng thời gian qua.',
-            'Mỗi người đều có hạnh phúc của riêng mình. Đối với anh, hạnh phúc lớn nhất là có em. Anh mong rằng mỗi ngày đều có em bên cạnh, trọn kiếp này và cả kiếp sau nữa. Happy Women’s Day! Chúc em có ngày 8/3 thật hạnh phúc.',
-            'Chúc em yêu dù là ngày 8/3 hay bất cứ ngày nào khác cũng luôn thật xinh đẹp, tự tin và yêu anh nhiều hơn nữa.',
-            'Em biết không, những lúc ở bên em là những lúc anh cảm thấy ngọt ngào và hạnh phúc nhất. Cảm ơn em vì đã đến bên anh. Cảm ơn em vì đã ở cạnh anh… Hãy thật vui trong ngày hôm nay em nhé!',
-        ];
-        let number = Math.floor(Math.random() * 5);
+            "Nhân ngày Quốc tế Phụ nữ 8/3, em xin thay mặt toàn bộ đàn ông trên thế giới trao gửi yêu thương đến chị em bằng những lời chúc tốt đẹp. Chúc chị em luôn có một cuộc sống lý tưởng và đạt được những mục tiêu đã đặt ra trong công việc",
+            "William James có một câu danh ngôn rằng: “Chúng ta không cười vì chúng ta hạnh phúc – chúng ta hạnh phúc vì chúng ta cười”. Chính vì thế, Anh em chúng tôi chúc chị em luôn đón chào ngày mới bằng một nụ cười trên môi, không chỉ riêng hôm nay mà còn là 364 ngày còn lại",
+            "Hôm nay là ngày Quốc tế Phụ nữ, anh em Thành phát gửi lời chúc mừng tới chị em mình vì đã gắn bó trong suốt thời gian vừa qua bởi vì chúng ta là một gia đình. Chúc chị em luôn giữ mãi ngọn lửa nhiệt huyết với công việc và cuộc sống",
+            "8/3 là ngày đặc biệt dành cho bạn cũng như toàn thể phụ nữ trên thế giới, anh em chúng tôi xin chúc bạn sẽ như đóa hoa hướng dương luôn căng tràn nhựa sống và đón nhận những điều tốt đẹp của cuộc đời",
+            "Mỗi một ngày trôi qua, anh em thành phát chúng tôi lại học được ở sếp một điều mới. Nhân ngày Quốc tế Phụ nữ, xin cảm ơn chị em đã luôn xinh đẹp và tận tâm trong công việc. Chúc chị em vạn sự như ý và luôn thành công, luôn rực rỡ, toả sáng",
+            "Thương gửi bạn gái xinh xắn đang đọc những dòng chữ này, nhân dịp Quốc tế Phụ nữ, xin chúc bạn một ngày 8/3 vui vẻ và hạnh phúc bên gia đình và đồng nghiệp",
+            "Người ta nói rằng: “Hạnh phúc là được yêu khi trẻ, toại chí khi trung tuổi, dư sinh lực lúc về già và có tiền ở mọi lứa tuổi”. Nhân dịp 8/3, xin chúc bạn sẽ đạt được trọn vẹn những điều như thế",
+            "Nhân ngày tôn vinh một nửa quan trọng của thế giới, xin chúc bạn thật hạnh phúc và mong rằng mỗi ngày trôi qua, bạn luôn được sống trong tình yêu thương không chỉ của bạn bè, người thân mà còn là các anh chị em, đồng nghiệp trong công ty mình",
+            "Hôm nay là ngày Quốc tế Phụ nữ, em xin thay mặt các anh em gửi đến bạn một lời chúc chân thành, chúc bạn mãi là một tấm gương phụ nữ xinh đẹp, giỏi giang trong công ty, là hình mẫu lý tưởng để em cùng các đồng nghiệp noi theo và phát triển",
+            "Nhân ngày 8/3, chúc bạn sẽ luôn luôn tươi trẻ, mạnh khỏe và hạnh phúc. Chúc sếp sẽ mãi giữ vững sự bản lĩnh, tự tin để có thể tiếp tục đánh dấu những cột mốc đặc biệt, mang đến thêm nhiều khởi sắc của công ty chúng ta",
+            "Là người truyền cảm hứng, động lực rất lớn trong cuộc sống lẫn công việc. Nhân dịp 8/3, chúc bạn ngày càng trẻ khỏe, công việc đạt được thành công như mong muốn",
+            "Thay mặt anh em trong công ty xin gửi tới bạn lời chúc 8/3, chúc bạn luôn vui – khỏe – trẻ trung, luôn giữ được tâm hồn tràn đầy năng lượng và nhiệt huyết với công việc. Hãy luôn như một bông hoa tươi thắm, vẫn kiêu hãnh trong bất cứ hoàn cảnh nào, bạn nhé",
+            "Chúc cho mùng 8 tháng 3, chị em ai cũng xinh ra nhiều phần, lương thì tăng gấp 5 lần, để luôn xúng xính và cân nhiều kèo.",
+            "Chị em mùng 8 tháng 3, luôn luôn tươi trẻ, điệu đà sắc xuân, chúc thêm hạnh phúc muôn phần, tình yêu nồng thắm, vạn lần yêu thương",
+            "Nhân dịp mùng 8 tháng 3, chúc chị em sẽ mặn mà, thanh xuân, nét đẹp rạng rỡ muôn phần, tâm hồn phơi phới, ngàn lần vui tươi.",
+            "Nhân ngày mùng 8 tháng ba, xin chúc phụ nữ nhà ta, các siêu nhân tài ba, giỏi việc nước, đảm việc nhà, luôn được yêu thiệt nhiều nha!",
+            "Nhân dịp Quốc tế Phụ nữ, xin thay mặt toàn thể “cánh mày râu” gửi đến những “bóng hồng” xinh đẹp trong công ty chúng ta một lời chúc chân thành. Chúc các chị em sẽ rạng rỡ như tuổi đôi mươi, giàu có như lúc trung thời và hạnh phúc như thời thanh xuân.",
+            "Chúc hội chị em của công ty luôn xinh đẹp, duyên dáng và gặt hái được nhiều thành công trong công việc.",
+            "Ngày 8/3, xin chúc các chị em trong công ty chúng ta sẽ nhận được nhiều quà và hoa cùng tình yêu thương vô bờ của người thân, bạn bè và đồng nghiệp.",
+            "Trong ngày tri ân “một nửa của thế giới”, thay mặt “cánh mày râu” của công ty, tôi xin cảm ơn sự nhiệt huyết của các chị em trong công việc. Mong rằng các chị em sẽ gặt hái được nhiều thành công, vững vàng hơn với con đường đang chọn và thật bình an với những khoảnh khắc đang trải qua.",
+            "Nhân ngày Quốc tế Phụ nữ, xin chúc bạn có những khoảnh khắc đáng nhớ bên người thương và được nhận thật nhiều món quà ý nghĩa từ mọi người.",
+            "Hôm nay là ngày Quốc tế Phụ nữ, xin chúc chị em đồng nghiệp của tôi luôn hạnh phúc, xinh đẹp và gặp nhiều may mắn."
+        ]
+        let number = Math.floor(Math.random() * arr.length);
         var i = 0;
         var txt = arr[number];
         var speed = 50;
