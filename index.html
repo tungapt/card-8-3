@@ -162,8 +162,8 @@
             animation: fadeIn 1s forwards
         }
         #popup * {
+            font-size: 27px;
             font-family: DancingScript;
-            font-size: 22px;
         }
         .page:nth-child(odd) {
             background-position: right top;
@@ -171,7 +171,7 @@
         #loiChuc {
             text-align: center;
             margin-top: 185px;
-            color: #4a3a4a;
+            color: #1e161e;
         }
         .lastpage {
             background: no-repeat url('./imgs/background2.png'), #efd0d6 !important;
@@ -208,19 +208,20 @@
             align-items: center;
             cursor: pointer;
             transition: all .4s;
+            text-align: center;
         }
         #manChe:hover{
             opacity:0.7;
-            font-size: 36px;
+            font-size: 32px;
         }
     </style>
     <body>
         <div id="popup">
-            <div id="manChe">Click to open</div>
+            <div id="manChe">Đừng hoảng hốt nhé! <br> Có đôi lời nhắn gửi yêu thương từ anh em trong công ty gửi tới bạn</div>
             <audio id="myAudio">
                 <source src="./nhacNen1.mp3" type="audio/mpeg">
             </audio>
-            <a href="javascript:void(0)" class="closeBtn" onclick="playAudio()">Close</a>
+            <a href="javascript:void(0)" class="closeBtn" id="closeBtn">Close</a>
             <div class="book" id="book">
                 <div id="pages" class="pages">
                     <div class="page biaSach" id="handleShowText"></div>
@@ -243,16 +244,16 @@
         
         // chữ chạy
         var arr = [
-            "Nhân ngày Quốc tế Phụ nữ 8/3, em xin thay mặt toàn bộ đàn ông trên thế giới trao gửi yêu thương đến chị em bằng những lời chúc tốt đẹp. Chúc chị em luôn có một cuộc sống lý tưởng và đạt được những mục tiêu đã đặt ra trong công việc",
-            "William James có một câu danh ngôn rằng: “Chúng ta không cười vì chúng ta hạnh phúc – chúng ta hạnh phúc vì chúng ta cười”. Chính vì thế, Anh em chúng tôi chúc chị em luôn đón chào ngày mới bằng một nụ cười trên môi, không chỉ riêng hôm nay mà còn là 364 ngày còn lại",
-            "Hôm nay là ngày Quốc tế Phụ nữ, anh em Thành phát gửi lời chúc mừng tới chị em mình vì đã gắn bó trong suốt thời gian vừa qua bởi vì chúng ta là một gia đình. Chúc chị em luôn giữ mãi ngọn lửa nhiệt huyết với công việc và cuộc sống",
+            "Nhân ngày Quốc tế Phụ nữ 8/3, xin thay mặt toàn bộ đàn ông trên thế giới trao gửi yêu thương đến bạn bằng những lời chúc tốt đẹp. Chúc bạn luôn có một cuộc sống lý tưởng và đạt được những mục tiêu đã đặt ra trong công việc",
+            "William James có một câu danh ngôn rằng: “Chúng ta không cười vì chúng ta hạnh phúc – chúng ta hạnh phúc vì chúng ta cười”. Chính vì thế, chúc bạn luôn đón chào ngày mới bằng một nụ cười trên môi, không chỉ riêng hôm nay mà còn là 364 ngày còn lại",
+            "Hôm nay là ngày Quốc tế Phụ nữ, anh em Thành phát gửi lời chúc mừng tới bạn vì đã gắn bó trong suốt thời gian vừa qua bởi vì chúng ta là một gia đình. Chúc bạn luôn giữ mãi ngọn lửa nhiệt huyết với công việc và cuộc sống",
             "8/3 là ngày đặc biệt dành cho bạn cũng như toàn thể phụ nữ trên thế giới, anh em chúng tôi xin chúc bạn sẽ như đóa hoa hướng dương luôn căng tràn nhựa sống và đón nhận những điều tốt đẹp của cuộc đời",
             "Thương gửi bạn gái xinh xắn đang đọc những dòng chữ này, nhân dịp Quốc tế Phụ nữ, xin chúc bạn một ngày 8/3 vui vẻ và hạnh phúc bên gia đình và đồng nghiệp",
             "Người ta nói rằng: “Hạnh phúc là được yêu khi trẻ, toại chí khi trung tuổi, dư sinh lực lúc về già và có tiền ở mọi lứa tuổi”. Nhân dịp 8/3, xin chúc bạn sẽ đạt được trọn vẹn những điều như thế",
             "Nhân ngày tôn vinh một nửa quan trọng của thế giới, xin chúc bạn thật hạnh phúc và mong rằng mỗi ngày trôi qua, bạn luôn được sống trong tình yêu thương không chỉ của bạn bè, người thân mà còn là các anh chị em, đồng nghiệp trong công ty mình",
-            "Hôm nay là ngày Quốc tế Phụ nữ, em xin thay mặt các anh em gửi đến bạn một lời chúc chân thành, chúc bạn mãi là một tấm gương phụ nữ xinh đẹp, giỏi giang trong công ty, là hình mẫu lý tưởng để em cùng các đồng nghiệp noi theo và phát triển",
-            "Nhân ngày 8/3, chúc bạn sẽ luôn luôn tươi trẻ, mạnh khỏe và hạnh phúc. Chúc sếp sẽ mãi giữ vững sự bản lĩnh, tự tin để có thể tiếp tục đánh dấu những cột mốc đặc biệt, mang đến thêm nhiều khởi sắc của công ty chúng ta",
-            "Là người truyền cảm hứng, động lực rất lớn trong cuộc sống lẫn công việc. Nhân dịp 8/3, chúc bạn ngày càng trẻ khỏe, công việc đạt được thành công như mong muốn",
+            "Hôm nay là ngày Quốc tế Phụ nữ, xin gửi đến bạn một lời chúc chân thành, chúc bạn mãi là một tấm gương phụ nữ xinh đẹp, giỏi giang trong công ty, là hình mẫu lý tưởng để em cùng các đồng nghiệp noi theo và phát triển",
+            "Nhân ngày 8/3, chúc bạn sẽ luôn luôn tươi trẻ, mạnh khỏe và hạnh phúc. Chúc bạn sẽ mãi giữ vững sự bản lĩnh, tự tin để có thể tiếp tục đánh dấu những cột mốc đặc biệt, mang đến thêm nhiều khởi sắc của công ty chúng ta",
+            "Nhân dịp 8/3, chúc bạn ngày càng trẻ khỏe, công việc đạt được thành công như mong muốn, have nice day!",
             "Thay mặt anh em trong công ty xin gửi tới bạn lời chúc 8/3, chúc bạn luôn vui – khỏe – trẻ trung, luôn giữ được tâm hồn tràn đầy năng lượng và nhiệt huyết với công việc. Hãy luôn như một bông hoa tươi thắm, vẫn kiêu hãnh trong bất cứ hoàn cảnh nào, bạn nhé",
             "Chúc cho mùng 8 tháng 3, chị em ai cũng xinh ra nhiều phần, lương thì tăng gấp 5 lần, để luôn xúng xính và cân nhiều kèo.",
             "Chị em mùng 8 tháng 3, luôn luôn tươi trẻ, điệu đà sắc xuân, chúc thêm hạnh phúc muôn phần, tình yêu nồng thắm, vạn lần yêu thương",
@@ -266,25 +267,25 @@
             "Hôm nay là ngày Quốc tế Phụ nữ, xin chúc chị em đồng nghiệp của tôi luôn hạnh phúc, xinh đẹp và gặp nhiều may mắn."
         ]
         let number = Math.floor(Math.random() * arr.length);
-        var i = 0;
+        var index = 0;
         var txt = arr[number];
         var speed = 50;
-
+        
         document.getElementById('handleShowText').addEventListener('click', function () {
             document.getElementById('book').classList.add("active");
-            setTimeout(() => {
+            setTimeout(function(){
                 typeWriter();
-            }, 1000);
+            },1000)
         })
         document.getElementById('matTrong1').addEventListener('click', function () {
             document.getElementById('book').classList.remove("active");
         })
 
         function typeWriter() {
-            if (i <= txt.length) {
-                document.getElementById("loiChuc").innerHTML += txt.charAt(i);
-                i++;
-                setTimeout(typeWriter, speed);
+            if (i < txt.length) {
+              document.getElementById("loiChuc").innerHTML += txt.charAt(index);
+              index++;
+              setTimeout(typeWriter, speed);
             }
         }
 
