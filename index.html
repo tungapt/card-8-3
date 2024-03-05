@@ -6,195 +6,45 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Ngày của những bông hoa trên ngọn đồi Thành phát</title>
     </head>
-    <style>
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-        @font-face {
-            font-family: DancingScript;
-            src: url('./DancingScript.ttf');
-        }
-        .book {
-            transition: opacity 0.4s 0.2s;
-        }
-        .biaSach {
-            background: no-repeat 100%/contain url('./imgs/bia.webp') !important;
-        }
-        .page {
-            width: 424px;
-            height: 600px;
-            background-color: #111111;
-            float: left;
-            margin-bottom: 0.5em;
-            background: left top no-repeat;
-            background-size: cover;
-            padding: 12px 40px;
-            background: #000;
-        }
-        .page:nth-child(even) {
-            clear: both;
-        }
-        .book {
-            perspective: 250vw;
-            transform: rotate(9deg) scale(0.8);
-            transition: all 1s;
-            margin-left: 300px;
-            filter: drop-shadow(-2px 6px 3px #89abb78f) brightness(0.9);
-        }
-        .book.active {
-            transform: rotate(0) scale(1);
-        }
-        .book:hover {
-            transform: rotate(0) scale(1);
-            filter: drop-shadow(-2px 6px 3px #89abb78f) brightness(1);
-        }
-        .book .pages {
-            width: 848px;
-            height: 600px;
-            position: relative;
-            transform-style: preserve-3d;
-            backface-visibility: hidden;
-            border-radius: 4px;
-            /*box-shadow: 0 0 0 1px #e3dfd8;*/
-        }
-        .book .page {
-            float: none;
-            clear: none;
-            margin: 0;
-            position: absolute;
-            top: 0;
-            width: 424px;
-            height: 600px;
-            transform-origin: 0 0;
-            transition: transform 1.4s;
-            backface-visibility: hidden;
-            transform-style: preserve-3d;
-            cursor: pointer;
-            user-select: none;
-            background-color: #eccdd3;
-        }
-        .book .page:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0);
-            transition: background 0.7s;
-            z-index: 2;
-        }
-        .book .page:nth-child(odd) {
-            pointer-events: all;
-            transform: rotateY(0deg);
-            right: 0;
-            border-radius: 0 4px 4px 0;
-            background-image: linear-gradient(to right, rgba(0,0,0,.15) 0%, rgba(0,0,0,0) 10%);
-        }
-        .book .page:nth-child(odd):hover {
-            transform: rotateY(-15deg);
-        }
-        .book .page:nth-child(odd):hover:before {
-            background: rgba(0, 0, 0, 0.03);
-        }
-        .book .page:nth-child(odd):before {
-            background: rgba(0, 0, 0, 0);
-        }
-        .book .page:nth-child(even) {
-            pointer-events: none;
-            transform: rotateY(180deg);
-            transform-origin: 100% 0;
-            left: 0;
-            border-radius: 4px 0 0 4px;
-            border-color: black;
-            background-image: linear-gradient(to left, rgba(0,0,0,.12) 0%, rgba(0,0,0,0) 10%);
-        }
-        .book .page:nth-child(even):before {
-            background: rgba(0, 0, 0, 0.2);
-        }
-        .book .page.grabbing {
-            transition: none;
-        }
-        .book .page.flipped:nth-child(odd) {
-            pointer-events: none;
-            transform: rotateY(-180deg);
-        }
-        .book .page.flipped:nth-child(odd):before {
-            background: rgba(0, 0, 0, 0.2);
-        }
-        .book .page.flipped:nth-child(even) {
-            pointer-events: all;
-            transform: rotateY(0deg);
-        }
-        .book .page.flipped:nth-child(even):hover {
-            transform: rotateY(15deg);
-        }
-        .book .page.flipped:nth-child(even):hover:before {
-            background: rgba(0, 0, 0, 0.03);
-        }
-        .book .page.flipped:nth-child(even):before {
-            background: rgba(0, 0, 0, 0);
-        }
-        *,
-        *:before,
-        *:after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0
-        }
-        html {
-            height: 100%;
-        }
-        #popup {
-            background: no-repeat 100%/cover url('./imgs/background.webp');
-            height: 100vh;
-            min-height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 2em 0;
-            opacity: 0;
-            animation: fadeIn 1s forwards
-        }
-        #popup * {
-            font-size: 27px;
-            font-family: DancingScript;
-        }
-        .page:nth-child(odd) {
-            background-position: right top;
-        }
-        #loiChuc {
-            text-align: center;
-            margin-top: 185px;
-            color: #1e161e;
-        }
-        .lastpage {
-            background: no-repeat url('./imgs/background2.webp'), #efd0d6 !important;
-            background-size: 644px !important;
-            background-position: bottom right !important;
-        }
-        .closeBtn {
-            background: #ced6d9;
-            display: block;
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            padding: 10px;
-            border-radius: 5px;
-            color: #000;
-            text-decoration: none;
-        }
-        .closeBtn:hover {
-            background: #86aaba;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
     <body>
         <div id="popup">
+            <div class="LopNhapTen">
+                <p>Bạn gì ơi!,mình là cp.tuyensinh247.com! mình biết hôm nay là ngày Quốc tế phụ nữ(8/3), 
+                    một ngày đặc biệt để tôn vinh phụ nữ chúng ta phải không nào!
+                    vì vậy đội ngũ kỹ thuật đã chuẩn bị một chương trình nhỏ gửi những lời yêu thương kèm theo hiệu ứng và âm nhạc!
+                    có rất nhiều điều dẫn chúng ta đến hạnh phúc, nhưng mình tin rằng hạnh phúc có thể sẽ đến từ những điều nhỏ bé và phụ nữ chúng ta hãy luôn là chính mình!
+                    bạn còn ngại gì mà không báo tên mình vào đây nào!
+                </p>
+                <div>
+                    <input type="text" placeholder="Tên của bạn là gì?" required title="Mình dỗi!!!!"> <br>
+                    <button id="btnOpenNow" class="btnOpen">Mở ra</button>
+                </div>
+                <div class="mariposa benNgoai">
+                    <div class="mariposa-turn">
+                        <div class="mariposa-flutter"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="stage">
+                <div class="mariposa benTrong">
+                  <div class="mariposa-turn">
+                    <div class="mariposa-flutter"></div>
+                  </div>
+                </div>
+              
+                <div class="mariposa benTrong">
+                  <div class="mariposa-turn">
+                    <div class="mariposa-flutter"></div>
+                  </div>
+                </div>
+              
+                <div class="mariposa benTrong">
+                  <div class="mariposa-turn">
+                    <div class="mariposa-flutter"></div>
+                  </div>
+                </div>
+            </div>
             <audio id="myAudio">
                 <source src="./nhacNen1.mp3" type="audio/mpeg">
             </audio>
@@ -211,6 +61,10 @@
             </div>
         </div>
     </body>
+    <script
+  src="https://code.jquery.com/jquery-3.7.1.js"
+  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+  crossorigin="anonymous"></script>
     <script>
         var x = document.getElementById("myAudio");
         // chữ chạy
@@ -287,5 +141,12 @@
             }
         })
         // end hiệu ứng
+
+        // 
+        $('#btnOpenNow').on('click',function(){
+            setTimeout(() => {
+                $('.LopNhapTen').fadeOut();
+            }, 2000);
+        })
     </script>
 </html>
