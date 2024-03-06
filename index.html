@@ -1,291 +1,526 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Ngày của những bông hoa trên ngọn đồi Thành phát</title>
-    </head>
-    <style>
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-        @font-face {
-            font-family: DancingScript;
-            src: url('./DancingScript.ttf');
-        }
-        .book {
-            transition: opacity 0.4s 0.2s;
-        }
-        .biaSach {
-            background: no-repeat 100%/contain url('./imgs/bia.webp') !important;
-        }
-        .page {
-            width: 424px;
-            height: 600px;
-            background-color: #111111;
-            float: left;
-            margin-bottom: 0.5em;
-            background: left top no-repeat;
-            background-size: cover;
-            padding: 12px 40px;
-            background: #000;
-        }
-        .page:nth-child(even) {
-            clear: both;
-        }
-        .book {
-            perspective: 250vw;
-            transform: rotate(9deg) scale(0.8);
-            transition: all 1s;
-            margin-left: 300px;
-            filter: drop-shadow(-2px 6px 3px #89abb78f) brightness(0.9);
-        }
-        .book.active {
-            transform: rotate(0) scale(1);
-        }
-        .book:hover {
-            transform: rotate(0) scale(1);
-            filter: drop-shadow(-2px 6px 3px #89abb78f) brightness(1);
-        }
-        .book .pages {
-            width: 848px;
-            height: 600px;
-            position: relative;
-            transform-style: preserve-3d;
-            backface-visibility: hidden;
-            border-radius: 4px;
-            /*box-shadow: 0 0 0 1px #e3dfd8;*/
-        }
-        .book .page {
-            float: none;
-            clear: none;
-            margin: 0;
-            position: absolute;
-            top: 0;
-            width: 424px;
-            height: 600px;
-            transform-origin: 0 0;
-            transition: transform 1.4s;
-            backface-visibility: hidden;
-            transform-style: preserve-3d;
-            cursor: pointer;
-            user-select: none;
-            background-color: #eccdd3;
-        }
-        .book .page:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0);
-            transition: background 0.7s;
-            z-index: 2;
-        }
-        .book .page:nth-child(odd) {
-            pointer-events: all;
-            transform: rotateY(0deg);
-            right: 0;
-            border-radius: 0 4px 4px 0;
-            background-image: linear-gradient(to right, rgba(0,0,0,.15) 0%, rgba(0,0,0,0) 10%);
-        }
-        .book .page:nth-child(odd):hover {
-            transform: rotateY(-15deg);
-        }
-        .book .page:nth-child(odd):hover:before {
-            background: rgba(0, 0, 0, 0.03);
-        }
-        .book .page:nth-child(odd):before {
-            background: rgba(0, 0, 0, 0);
-        }
-        .book .page:nth-child(even) {
-            pointer-events: none;
-            transform: rotateY(180deg);
-            transform-origin: 100% 0;
-            left: 0;
-            border-radius: 4px 0 0 4px;
-            border-color: black;
-            background-image: linear-gradient(to left, rgba(0,0,0,.12) 0%, rgba(0,0,0,0) 10%);
-        }
-        .book .page:nth-child(even):before {
-            background: rgba(0, 0, 0, 0.2);
-        }
-        .book .page.grabbing {
-            transition: none;
-        }
-        .book .page.flipped:nth-child(odd) {
-            pointer-events: none;
-            transform: rotateY(-180deg);
-        }
-        .book .page.flipped:nth-child(odd):before {
-            background: rgba(0, 0, 0, 0.2);
-        }
-        .book .page.flipped:nth-child(even) {
-            pointer-events: all;
-            transform: rotateY(0deg);
-        }
-        .book .page.flipped:nth-child(even):hover {
-            transform: rotateY(15deg);
-        }
-        .book .page.flipped:nth-child(even):hover:before {
-            background: rgba(0, 0, 0, 0.03);
-        }
-        .book .page.flipped:nth-child(even):before {
-            background: rgba(0, 0, 0, 0);
-        }
-        *,
-        *:before,
-        *:after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0
-        }
-        html {
-            height: 100%;
-        }
-        #popup {
-            background: no-repeat 100%/cover url('./imgs/background.webp');
-            height: 100vh;
-            min-height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 2em 0;
-            opacity: 0;
-            animation: fadeIn 1s forwards
-        }
-        #popup * {
-            font-size: 27px;
-            font-family: DancingScript;
-        }
-        .page:nth-child(odd) {
-            background-position: right top;
-        }
-        #loiChuc {
-            text-align: center;
-            margin-top: 185px;
-            color: #1e161e;
-        }
-        .lastpage {
-            background: no-repeat url('./imgs/background2.webp'), #efd0d6 !important;
-            background-size: 644px !important;
-            background-position: bottom right !important;
-        }
-        .closeBtn {
-            background: #ced6d9;
-            display: block;
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            padding: 10px;
-            border-radius: 5px;
-            color: #000;
-            text-decoration: none;
-        }
-        .closeBtn:hover {
-            background: #86aaba;
-        }
-    </style>
-    <body>
-        <div id="popup">
-            <audio id="myAudio">
-                <source src="./nhacNen1.mp3" type="audio/mpeg">
-            </audio>
-            <a href="javascript:void(0)" class="closeBtn" id="closeBtn">Close</a>
-            <div class="book" id="book">
-                <div id="pages" class="pages">
-                    <div class="page biaSach" id="handleShowText"></div>
-                    <div class="page" id="matTrong1">
-                        <p id="loiChuc"></p>
-                    </div>
-                    <div class="page lastpage"></div>
-                    <div class="page"></div>
-                </div>
-            </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chúc mừng ngày 8/3</title>
+  </head>
+  <style>
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    @font-face {
+      font-family: DancingScript;
+      src: url("./DancingScript.ttf");
+    }
+	body{
+		overflow: hidden;
+	}
+    .book {
+      transition: opacity 0.4s 0.2s;
+	  position: relative;
+	  z-index: 4;
+    }
+    .biaSach {
+      background: no-repeat 100% / contain url("./imgs/bia.webp") !important;
+    }
+    .page {
+      width: 424px;
+      height: 600px;
+      background-color: #111111;
+      float: left;
+      margin-bottom: 0.5em;
+      background: left top no-repeat;
+      background-size: cover;
+      padding: 12px 40px;
+      background: #000;
+    }
+    .page:nth-child(even) {
+      clear: both;
+    }
+    .book {
+      perspective: 250vw;
+      transform: rotate(9deg) scale(0.8);
+      transition: all 1s;
+      margin-right: 70%;
+      filter: drop-shadow(-2px 6px 3px #89abb78f) brightness(0.9);
+    }
+    .book.active {
+      transform: rotate(0) scale(1);
+      margin-right: 0;
+	  position: relative;
+	  z-index: 6;
+    }
+    .book:hover {
+      transform: rotate(0) scale(1);
+      filter: drop-shadow(-2px 6px 3px #89abb78f) brightness(1);
+    }
+    .book .pages {
+      width: 848px;
+      height: 600px;
+      position: relative;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      border-radius: 4px;
+      /*box-shadow: 0 0 0 1px #e3dfd8;*/
+    }
+    .book .page {
+      float: none;
+      clear: none;
+      margin: 0;
+      position: absolute;
+      top: 0;
+      width: 424px;
+      height: 600px;
+      transform-origin: 0 0;
+      transition: transform 1.4s;
+      backface-visibility: hidden;
+      transform-style: preserve-3d;
+      cursor: pointer;
+      user-select: none;
+      background-color: #eccdd3;
+    }
+    .book .page:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0);
+      transition: background 0.7s;
+      z-index: 2;
+    }
+    .book .page:nth-child(odd) {
+      pointer-events: all;
+      transform: rotateY(0deg);
+      right: 0;
+      border-radius: 0 4px 4px 0;
+      background-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.15) 0%,
+        rgba(0, 0, 0, 0) 10%
+      );
+    }
+    .book .page:nth-child(odd):hover {
+      transform: rotateY(-15deg);
+    }
+    .book .page:nth-child(odd):hover:before {
+      background: rgba(0, 0, 0, 0.03);
+    }
+    .book .page:nth-child(odd):before {
+      background: rgba(0, 0, 0, 0);
+    }
+    .book .page:nth-child(even) {
+      pointer-events: none;
+      transform: rotateY(180deg);
+      transform-origin: 100% 0;
+      left: 0;
+      border-radius: 4px 0 0 4px;
+      border-color: black;
+      background-image: linear-gradient(
+        to left,
+        rgba(0, 0, 0, 0.12) 0%,
+        rgba(0, 0, 0, 0) 10%
+      );
+    }
+    .book .page:nth-child(even):before {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .book .page.grabbing {
+      transition: none;
+    }
+    .book .page.flipped:nth-child(odd) {
+      pointer-events: none;
+      transform: rotateY(-180deg);
+    }
+    .book .page.flipped:nth-child(odd):before {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .book .page.flipped:nth-child(even) {
+      pointer-events: all;
+      transform: rotateY(0deg);
+    }
+    .book .page.flipped:nth-child(even):hover {
+      transform: rotateY(15deg);
+    }
+    .book .page.flipped:nth-child(even):hover:before {
+      background: rgba(0, 0, 0, 0.03);
+    }
+    .book .page.flipped:nth-child(even):before {
+      background: rgba(0, 0, 0, 0);
+    }
+    *,
+    *:before,
+    *:after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html {
+      height: 100%;
+    }
+    #popup {
+      background: no-repeat 100% / cover url("./imgs/background2.webp");
+      height: 100vh;
+      min-height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2em 0;
+      opacity: 0;
+      animation: fadeIn 1s forwards;
+    }
+    #popup * {
+      font-size: 27px;
+      font-family: DancingScript;
+    }
+    .page:nth-child(odd) {
+      background-position: right top;
+    }
+    #loiChuc {
+      text-align: center;
+      margin-top: 185px;
+      color: #1e161e;
+    }
+    .lastpage {
+      background: no-repeat url("./imgs/background2.webp"), #efd0d6 !important;
+      background-size: 644px !important;
+      background-position: bottom right !important;
+    }
+    .closeBtn {
+      background: #ced6d9;
+      display: block;
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 10px;
+      border-radius: 5px;
+      color: #000;
+      text-decoration: none;
+    }
+    .closeBtn:hover {
+      background: #86aaba;
+    }
+    #sercurity {
+      position: absolute;
+      width: 100%;
+      height: 100vh;
+      background: rgb(255 255 255 / 56%);
+      z-index: 6;
+      cursor: pointer;
+      animation: nhapNhay 1s infinite alternate linear;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 50px !important;
+    }
+    @keyframes nhapNhay {
+      0% {
+        background: rgb(255 255 255 / 56%);
+        opacity: 1;
+      }
+      100% {
+        background: rgb(255 255 255 / 20%);
+        opacity: 0;
+      }
+    }
+    /* mariposa */
+
+    .stage {
+      position: fixed;
+      top: 0;
+      left: 0;
+      margin: 0 auto;
+      height: 100vh;
+      width: 100%;
+      max-width: 900px;
+      overflow-y: hidden;
+      z-index: 5;
+    }
+    .mariposa {
+		filter: hue-rotate(312deg);
+      position: absolute;
+      margin: auto;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0;
+      width: 200px;
+      height: 200px;
+      opacity: 0;
+      /* start at 0 so they don't appear while loading */
+      -webkit-animation-fill-mode: backwards;
+      animation-fill-mode: backwards;
+      animation: fly 4s infinite linear;
+      animation-delay: 0.125s;
+    }
+    .mariposa:nth-child(2) {
+      animation-delay: 0.4s;
+    }
+    .mariposa:nth-child(2) .mariposa-turn {
+      animation-delay: 0.75s;
+    }
+    .mariposa:nth-child(2) .mariposa-turn .mariposa-flutter {
+      transform: scale(0.7) rotateX(65deg);
+    }
+    .mariposa:nth-child(3) {
+      animation-delay: 0.75s;
+    }
+    .mariposa:nth-child(3) .mariposa-turn {
+      animation-delay: 1.25s;
+    }
+    .mariposa:nth-child(3) .mariposa-turn .mariposa-flutter {
+      transform: scale(0.3) rotateX(45deg);
+    }
+    .mariposa .mariposa-turn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 200px;
+      height: 150px;
+      perspective: 1000px;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      left: 0;
+      margin: auto;
+      transform-origin: 50% 80%;
+      /* turn from a natural center */
+      -webkit-animation-fill-mode: both;
+      animation-fill-mode: both;
+      animation: turn 3s infinite cubic-bezier(0.31, 0.09, 0.77, 1.5);
+      transform-style: preserve-3d;
+      filter: drop-shadow(50px 30px 10px rgba(0, 0, 0, 0.5));
+    }
+    .mariposa-flutter {
+      width: 2rem;
+      height: 8rem;
+      position: relative;
+      top: 0;
+      margin: 0 auto;
+      background: url("https://assets.codepen.io/2273448/butterfly-body.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      transform-style: preserve-3d;
+      transform: rotateX(25deg) rotateY(5deg);
+    }
+    .mariposa-flutter::before,
+    .mariposa-flutter::after {
+      position: absolute;
+      top: 5%;
+      margin: auto;
+      content: "";
+      height: 100%;
+      width: 250%;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      transform-style: preserve-3d;
+      animation-delay: 0;
+    }
+    .mariposa-flutter::before {
+      background-image: url("https://assets.codepen.io/2273448/butterfly-wing.png");
+      transform-origin: 0% 50%;
+      animation: flutter-r 0.3s infinite ease-out;
+      left: 55%;
+    }
+    .mariposa-flutter::after {
+      background-image: url("https://assets.codepen.io/2273448/butterfly-wing-l.png");
+      transform-origin: 100% 50%;
+      animation: flutter-l 0.3s infinite ease-out;
+      right: 55%;
+    }
+    @keyframes flutter-r {
+      0%,
+      100% {
+        transform: rotateY(0deg);
+      }
+      50% {
+        transform: rotateY(-40deg);
+      }
+    }
+    @keyframes flutter-l {
+      0%,
+      100% {
+        transform: rotateY(0deg);
+      }
+      50% {
+        transform: rotateY(40deg);
+      }
+    }
+    @keyframes turn {
+      0%,
+      100% {
+        transform: translateX(-20%) rotateZ(30deg);
+      }
+      25% {
+        transform: translateX(50%) rotateZ(-30deg);
+      }
+      50% {
+        transform: translateX(-80%) rotateZ(30deg);
+      }
+      75% {
+        transform: translateX(30%) rotateZ(-30deg);
+      }
+    }
+    @keyframes fly {
+      0% {
+        opacity: 0;
+        transform: translateY(70vh);
+      }
+      3%,
+      99% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-70vh);
+      }
+    }
+  </style>
+  <body>
+    <div id="popup">
+      <div class="stage">
+        <div class="mariposa">
+          <div class="mariposa-turn">
+            <div class="mariposa-flutter"></div>
+          </div>
         </div>
-    </body>
-    <script>
-        var x = document.getElementById("myAudio");
-        // chữ chạy
-        var arr = [
-            "Nhân ngày Quốc tế Phụ nữ 8/3, xin thay mặt toàn bộ đàn ông trên thế giới trao gửi yêu thương đến bạn bằng những lời chúc tốt đẹp. Chúc bạn luôn có một cuộc sống lý tưởng và đạt được những mục tiêu đã đặt ra trong công việc",
-            "William James có một câu danh ngôn rằng: “Chúng ta không cười vì chúng ta hạnh phúc – chúng ta hạnh phúc vì chúng ta cười”. Chính vì thế, chúc bạn luôn đón chào ngày mới bằng một nụ cười trên môi, không chỉ riêng hôm nay mà còn là 364 ngày còn lại",
-            "Hôm nay là ngày Quốc tế Phụ nữ, anh em Thành phát gửi lời chúc mừng tới bạn vì đã gắn bó trong suốt thời gian vừa qua bởi vì chúng ta là một gia đình. Chúc bạn luôn giữ mãi ngọn lửa nhiệt huyết với công việc và cuộc sống",
-            "8/3 là ngày đặc biệt dành cho bạn cũng như toàn thể phụ nữ trên thế giới, anh em chúng tôi xin chúc bạn sẽ như đóa hoa hướng dương luôn căng tràn nhựa sống và đón nhận những điều tốt đẹp của cuộc đời",
-            "Thương gửi bạn gái xinh xắn đang đọc những dòng chữ này, nhân dịp Quốc tế Phụ nữ, xin chúc bạn một ngày 8/3 vui vẻ và hạnh phúc bên gia đình và đồng nghiệp",
-            "Người ta nói rằng: “Hạnh phúc là được yêu khi trẻ, toại chí khi trung tuổi, dư sinh lực lúc về già và có tiền ở mọi lứa tuổi”. Nhân dịp 8/3, xin chúc bạn sẽ đạt được trọn vẹn những điều như thế",
-            "Nhân ngày tôn vinh một nửa quan trọng của thế giới, xin chúc bạn thật hạnh phúc và mong rằng mỗi ngày trôi qua, bạn luôn được sống trong tình yêu thương không chỉ của bạn bè, người thân mà còn là các anh chị em, đồng nghiệp trong công ty mình",
-            "Hôm nay là ngày Quốc tế Phụ nữ, xin gửi đến bạn một lời chúc chân thành, chúc bạn mãi là một tấm gương phụ nữ xinh đẹp, giỏi giang trong công ty, là hình mẫu lý tưởng để em cùng các đồng nghiệp noi theo và phát triển",
-            "Nhân ngày 8/3, chúc bạn sẽ luôn luôn tươi trẻ, mạnh khỏe và hạnh phúc. Chúc bạn sẽ mãi giữ vững sự bản lĩnh, tự tin để có thể tiếp tục đánh dấu những cột mốc đặc biệt, mang đến thêm nhiều khởi sắc của công ty chúng ta",
-            "Nhân dịp 8/3, chúc bạn ngày càng trẻ khỏe, công việc đạt được thành công như mong muốn, have nice day!",
-            "Thay mặt anh em trong công ty xin gửi tới bạn lời chúc 8/3, chúc bạn luôn vui – khỏe – trẻ trung, luôn giữ được tâm hồn tràn đầy năng lượng và nhiệt huyết với công việc. Hãy luôn như một bông hoa tươi thắm, vẫn kiêu hãnh trong bất cứ hoàn cảnh nào, bạn nhé",
-            "Chúc cho mùng 8 tháng 3, chị em ai cũng xinh ra nhiều phần, lương thì tăng gấp 5 lần, để luôn xúng xính và cân nhiều kèo.",
-            "Chị em mùng 8 tháng 3, luôn luôn tươi trẻ, điệu đà sắc xuân, chúc thêm hạnh phúc muôn phần, tình yêu nồng thắm, vạn lần yêu thương",
-            "Nhân dịp mùng 8 tháng 3, chúc chị em sẽ mặn mà, thanh xuân, nét đẹp rạng rỡ muôn phần, tâm hồn phơi phới, ngàn lần vui tươi.",
-            "Nhân ngày mùng 8 tháng ba, xin chúc phụ nữ nhà ta, các siêu nhân tài ba, giỏi việc nước, đảm việc nhà, luôn được yêu thiệt nhiều nha!",
-            "Nhân dịp Quốc tế Phụ nữ, xin thay mặt toàn thể “cánh mày râu” gửi đến những “bóng hồng” xinh đẹp trong công ty chúng ta một lời chúc chân thành. Chúc các chị em sẽ rạng rỡ như tuổi đôi mươi, giàu có như lúc trung thời và hạnh phúc như thời thanh xuân.",
-            "Chúc hội chị em của công ty luôn xinh đẹp, duyên dáng và gặt hái được nhiều thành công trong công việc.",
-            "Ngày 8/3, xin chúc các chị em trong công ty chúng ta sẽ nhận được nhiều quà và hoa cùng tình yêu thương vô bờ của người thân, bạn bè và đồng nghiệp.",
-            "Trong ngày tri ân “một nửa của thế giới”, thay mặt “cánh mày râu” của công ty, tôi xin cảm ơn sự nhiệt huyết của các chị em trong công việc. Mong rằng các chị em sẽ gặt hái được nhiều thành công, vững vàng hơn với con đường đang chọn và thật bình an với những khoảnh khắc đang trải qua.",
-            "Nhân ngày Quốc tế Phụ nữ, xin chúc bạn có những khoảnh khắc đáng nhớ bên người thương và được nhận thật nhiều món quà ý nghĩa từ mọi người.",
-            "Hôm nay là ngày Quốc tế Phụ nữ, xin chúc chị em đồng nghiệp của tôi luôn hạnh phúc, xinh đẹp và gặp nhiều may mắn."
-        ]
-        let number = Math.floor(Math.random() * arr.length);
-        var index = 0;
-        var txt = arr[number];
-        var speed = 50;
-        
-        document.getElementById('handleShowText').addEventListener('click', function () {
-            document.getElementById('book').classList.add("active");
-            setTimeout(function(){
-                typeWriter();
-                x.play();
-            },1000)
-        })
-        document.getElementById('matTrong1').addEventListener('click', function () {
-            document.getElementById('book').classList.remove("active");
-        })
 
-        function typeWriter() {
-            if (i < txt.length) {
-              document.getElementById("loiChuc").innerHTML += txt.charAt(index);
-              index++;
-              setTimeout(typeWriter, speed);
-            }
-        }
+        <div class="mariposa">
+          <div class="mariposa-turn">
+            <div class="mariposa-flutter"></div>
+          </div>
+        </div>
 
-        // end chữ chạy
+        <div class="mariposa">
+          <div class="mariposa-turn">
+            <div class="mariposa-flutter"></div>
+          </div>
+        </div>
+      </div>
+      <div id="sercurity">Click to open</div>
+      <audio id="myAudio">
+        <source src="./nhacNen3.mp3" type="audio/mpeg" />
+      </audio>
+      <a href="javascript:void(0)" class="closeBtn" id="closeBtn">Close</a>
+      <div class="book" id="book">
+        <div id="pages" class="pages">
+          <div class="page biaSach" id="handleShowText"></div>
+          <div class="page" id="matTrong1">
+            <p id="loiChuc"></p>
+          </div>
+          <div class="page lastpage"></div>
+          <div class="page"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="jquery.js"></script>
+  <script>
+    // Mã JavaScript của bạn sẽ chạy khi toàn bộ trang (ảnh, script, và nội dung) đã được tải xong
+    console.log("Page is fully loaded!");
 
-        // hiệu ứng lật sách
-        var pages = document.getElementsByClassName('page');
-        for (var i = 0; i < pages.length; i++) {
-            var page = pages[i];
-            if (i % 2 === 0) {
-                page.style.zIndex = (pages.length - i);
-            }
-        }
+    var x = document.getElementById("myAudio");
+    // chữ chạy
+    var arr = [
+      "Nhân ngày Quốc tế Phụ nữ 8/3, xin thay mặt toàn bộ đàn ông trên thế giới trao gửi yêu thương đến bạn bằng những lời chúc tốt đẹp. Chúc bạn luôn có một cuộc sống lý tưởng và đạt được những mục tiêu đã đặt ra trong công việc",
+      "William James có một câu danh ngôn rằng: “Chúng ta không cười vì chúng ta hạnh phúc – chúng ta hạnh phúc vì chúng ta cười”. Chính vì thế, chúc bạn luôn đón chào ngày mới bằng một nụ cười trên môi, không chỉ riêng hôm nay mà còn là 364 ngày còn lại",
+      "Hôm nay là ngày Quốc tế Phụ nữ, anh em Thành phát gửi lời chúc mừng tới bạn vì đã gắn bó trong suốt thời gian vừa qua bởi vì chúng ta là một gia đình. Chúc bạn luôn giữ mãi ngọn lửa nhiệt huyết với công việc và cuộc sống",
+      "8/3 là ngày đặc biệt dành cho bạn cũng như toàn thể phụ nữ trên thế giới, anh em chúng tôi xin chúc bạn sẽ như đóa hoa hướng dương luôn căng tràn nhựa sống và đón nhận những điều tốt đẹp của cuộc đời",
+      "Thương gửi bạn gái xinh xắn đang đọc những dòng chữ này, nhân dịp Quốc tế Phụ nữ, xin chúc bạn một ngày 8/3 vui vẻ và hạnh phúc bên gia đình và đồng nghiệp",
+      "Người ta nói rằng: “Hạnh phúc là được yêu khi trẻ, toại chí khi trung tuổi, dư sinh lực lúc về già và có tiền ở mọi lứa tuổi”. Nhân dịp 8/3, xin chúc bạn sẽ đạt được trọn vẹn những điều như thế",
+      "Nhân ngày tôn vinh một nửa quan trọng của thế giới, xin chúc bạn thật hạnh phúc và mong rằng mỗi ngày trôi qua, bạn luôn được sống trong tình yêu thương không chỉ của bạn bè, người thân mà còn là các anh chị em, đồng nghiệp trong công ty mình",
+      "Hôm nay là ngày Quốc tế Phụ nữ, xin gửi đến bạn một lời chúc chân thành, chúc bạn mãi là một tấm gương phụ nữ xinh đẹp, giỏi giang trong công ty, là hình mẫu lý tưởng để em cùng các đồng nghiệp noi theo và phát triển",
+      "Nhân ngày 8/3, chúc bạn sẽ luôn luôn tươi trẻ, mạnh khỏe và hạnh phúc. Chúc bạn sẽ mãi giữ vững sự bản lĩnh, tự tin để có thể tiếp tục đánh dấu những cột mốc đặc biệt, mang đến thêm nhiều khởi sắc của công ty chúng ta",
+      "Nhân dịp 8/3, chúc bạn ngày càng trẻ khỏe, công việc đạt được thành công như mong muốn, have nice day!",
+      "Thay mặt anh em trong công ty xin gửi tới bạn lời chúc 8/3, chúc bạn luôn vui – khỏe – trẻ trung, luôn giữ được tâm hồn tràn đầy năng lượng và nhiệt huyết với công việc. Hãy luôn như một bông hoa tươi thắm, vẫn kiêu hãnh trong bất cứ hoàn cảnh nào, bạn nhé",
+      "Chúc cho mùng 8 tháng 3, chị em ai cũng xinh ra nhiều phần, lương thì tăng gấp 5 lần, để luôn xúng xính và cân nhiều kèo.",
+      "Chị em mùng 8 tháng 3, luôn luôn tươi trẻ, điệu đà sắc xuân, chúc thêm hạnh phúc muôn phần, tình yêu nồng thắm, vạn lần yêu thương",
+      "Nhân dịp mùng 8 tháng 3, chúc chị em sẽ mặn mà, thanh xuân, nét đẹp rạng rỡ muôn phần, tâm hồn phơi phới, ngàn lần vui tươi.",
+      "Nhân ngày mùng 8 tháng ba, xin chúc phụ nữ nhà ta, các siêu nhân tài ba, giỏi việc nước, đảm việc nhà, luôn được yêu thiệt nhiều nha!",
+      "Nhân dịp Quốc tế Phụ nữ, xin thay mặt toàn thể “cánh mày râu” gửi đến những “bóng hồng” xinh đẹp trong công ty chúng ta một lời chúc chân thành. Chúc các chị em sẽ rạng rỡ như tuổi đôi mươi, giàu có như lúc trung thời và hạnh phúc như thời thanh xuân.",
+      "Chúc hội chị em của công ty luôn xinh đẹp, duyên dáng và gặt hái được nhiều thành công trong công việc.",
+      "Ngày 8/3, xin chúc các chị em trong công ty chúng ta sẽ nhận được nhiều quà và hoa cùng tình yêu thương vô bờ của người thân, bạn bè và đồng nghiệp.",
+      "Trong ngày tri ân “một nửa của thế giới”, thay mặt “cánh mày râu” của công ty, tôi xin cảm ơn sự nhiệt huyết của các chị em trong công việc. Mong rằng các chị em sẽ gặt hái được nhiều thành công, vững vàng hơn với con đường đang chọn và thật bình an với những khoảnh khắc đang trải qua.",
+      "Nhân ngày Quốc tế Phụ nữ, xin chúc bạn có những khoảnh khắc đáng nhớ bên người thương và được nhận thật nhiều món quà ý nghĩa từ mọi người.",
+      "Hôm nay là ngày Quốc tế Phụ nữ, xin chúc chị em đồng nghiệp của tôi luôn hạnh phúc, xinh đẹp và gặp nhiều may mắn.",
+    ];
+    let number = Math.floor(Math.random() * arr.length);
+    var index = 0;
+    var txt = arr[number];
+    var speed = 50;
 
-        let a = document.addEventListener('DOMContentLoaded', function () {
-            for (var i = 0; i < pages.length; i++) { // Or var page = pages[i];
-                pages[i].pageNum = i + 1;
-                pages[i].onclick = function () {
-                    if (this.pageNum % 2 === 0) {
-                        this.classList.remove('flipped');
-                        this.previousElementSibling.classList.remove('flipped');
-                    } else {
-                        this.classList.add('flipped');
-                        this.nextElementSibling.classList.add('flipped');
-                    }
-                }
-            }
-        })
-        // end hiệu ứng
-    </script>
+    document
+      .getElementById("handleShowText")
+      .addEventListener("click", function () {
+        document.getElementById("book").classList.add("active");
+        setTimeout(function () {
+          typeWriter();
+          x.play();
+        }, 1000);
+      });
+
+    document.getElementById("matTrong1").addEventListener("click", function () {
+      document.getElementById("book").classList.remove("active");
+    });
+
+    function typeWriter() {
+      if (i < txt.length) {
+        document.getElementById("loiChuc").innerHTML += txt.charAt(index);
+        index++;
+        setTimeout(typeWriter, speed);
+      }
+    }
+
+    // end chữ chạy
+
+    // hiệu ứng lật sách
+    var pages = document.getElementsByClassName("page");
+    for (var i = 0; i < pages.length; i++) {
+      var page = pages[i];
+      if (i % 2 === 0) {
+        page.style.zIndex = pages.length - i;
+      }
+    }
+
+    let a = document.addEventListener("DOMContentLoaded", function () {
+      for (var i = 0; i < pages.length; i++) {
+        // Or var page = pages[i];
+        pages[i].pageNum = i + 1;
+        pages[i].onclick = function () {
+          if (this.pageNum % 2 === 0) {
+            this.classList.remove("flipped");
+            this.previousElementSibling.classList.remove("flipped");
+          } else {
+            this.classList.add("flipped");
+            this.nextElementSibling.classList.add("flipped");
+          }
+        };
+      }
+    });
+    // end hiệu ứng
+
+    $("#sercurity,.stage").on("click", function () {
+      $(this).fadeOut();
+      document.getElementById("book").classList.add("active");
+
+      $(".page:nth-child(1)").addClass("flipped");
+      $(".page:nth-child(1)").next().addClass("flipped");
+
+      setTimeout(function () {
+        typeWriter();
+        x.play();
+      }, 1000);
+    });
+  </script>
 </html>
